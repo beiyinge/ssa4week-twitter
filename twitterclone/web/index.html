@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head><title>Twitter Clone</title></head>
+<body>
+
+<div id="feeds">This page serves as home page. The latest feeds are:<br/><br/></div>
+
+<script>
+
+function loadPic() {
+  var xhttp = new XMLHttpRequest();
+  var picUrl= 'http://localhost:8080/getLatestFeeds';
+  
+  console.log(picUrl);
+  console.log(xhttp.responseText);
+  
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState === 4 && xhttp.status === 200) {
+      //document.getElementById("feeds").innerHTML = xhttp.responseText;
+	  
+	  var obj = JSON.parse(xhttp.responseText);
+	 
+	  
+	  for (var i = 0; i < obj.length; i++) { 
+		  
+			console.log(i + " -> " + obj[i]['date']);	
+
+			var cp = document.createElement('span');
+			cp.innerHTML = obj[i]['date'] + "->"  + obj[i]['userID'] + "->" + obj[i]['tweet'] + "<br>";
+			document.getElementById("feeds").appendChild(cp);
+			
+	  }
+ 
+	}
+
+  };
+  xhttp.open("GET", picUrl, true);
+  xhttp.send();
+}
+
+loadPic();
+
+</script>
+</body>
+</html>
